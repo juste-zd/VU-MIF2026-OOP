@@ -5,7 +5,7 @@
 using std::string;
 using std::vector;
 
-struct studentas{
+struct studentas {
     string vardas, pavarde;
     vector<int> paz;
     int egz;
@@ -20,37 +20,58 @@ int main()
     std::cout<<"Iveskite studentu kieki: ";
     int n;
     std::cin>>n;
-    for (int j=0; j<n; j++) {
+    for (int j = 0; j < n; j++) {
         std::cout<<"Iveskite studento varda ir pavarde per tarpa: ";
         std::cin>>A.vardas>>A.pavarde;
         std::cout<<"Iveskite semestro pazymiu kieki: ";
         std::cin>>k;
-        
-        for (int i=0; i<k; i++){
-            //cin>>A.paz[i];
-            std::cout<<"Iveskite "<<i+1 <<" pazymi: ";
+
+        for (int i = 0; i < k; i++) {
+            std::cout<<"Iveskite "<< i+1 <<" pazymi: ";
             int a;
             std::cin>>a;
             A.paz.push_back(a);
         }
-        
+
         std::cout<<"Iveskite egzamino pazymi: ";
         std::cin>>A.egz;
-        
+
         grupe.push_back(A);
         A.vardas.clear();
         A.pavarde.clear();
         A.paz.clear();
     }
 
-    std::cout<<"Studentu duomenys:\n";
-    for(studentas B:grupe) stud_duom(B);
+    std::cout<<"\nStudentu duomenys:\n";
 
+    std::cout<<std::left
+        <<std::setw(16)<<"Vardas"
+        <<std::setw(16)<<"Pavarde";
+    std::cout<<std::right<<std::setw(15)<<"Galutinis (Vid.)\n";
+
+    for (int i = 0; i < 40; i++)
+    {
+        std::cout<<"-";
+    }
+    std::cout<<"\n";
     
+    for (studentas B : grupe)
+        stud_duom(B);
 }
 
-void stud_duom(studentas A){
-    std::cout<<std::left<<std::setw(10)<<A.vardas<<"|"<<std::left<<std::setw(15)<<A.pavarde<<"|";
-    for (int p: A.paz) std::cout<<std::right<<std::setw(3)<<p<<"|";
-    std::cout<<std::right<<std::setw(5)<<A.egz<<"|\n";    
+void stud_duom(studentas A)
+{
+    float suma = 0;
+    int kiekis = 0;
+    for (int p: A.paz)
+        suma += p;
+        kiekis += 1;
+    float vidurkis = suma / kiekis;
+    float galutinis = 0.4*vidurkis + 0.6*A.egz;
+
+    std::cout<<std::left
+        <<std::setw(15)<<A.vardas<<"|"
+        <<std::setw(15)<<A.pavarde<<"|";
+    std::cout<<std::right
+        <<std::setw(15)<<std::fixed<<std::setprecision(2)<<galutinis<<"\n";
 }
